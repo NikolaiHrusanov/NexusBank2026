@@ -112,6 +112,12 @@
             gap: var(--space-lg);
         }
         
+        /* Make section headers non-clickable */
+        .dropdown-section-header {
+            cursor: default;
+            pointer-events: none;
+        }
+        
         /* Drag and Drop Styles */
         .dropdown-link[draggable="true"], 
         .plan-link[draggable="true"],
@@ -172,7 +178,7 @@
             </a>
 
             <div class="nav-row">
-                <!-- Personal Dropdown - Mega Menu -->
+                <!-- Personal Dropdown - Mega Menu (RESTRUCTURED: Accounts as header, Bank Account with functionality) -->
                 <div class="nav-dropdown">
                     <a href="#" class="nav-item dropdown-toggle">
                         <i class="fas fa-user"></i>
@@ -186,9 +192,11 @@
                                 <div class="dropdown-section-header">
                                     <span>Discover NexusBank</span>
                                 </div>
-                                <a href="personal/Discover-NexusBank/Accounts/index.html" class="dropdown-link" draggable="true">
+                                <!-- Accounts is now a SECTION HEADER - NOT clickable, NOT draggable -->
+                                <div class="dropdown-section-header mt-2">
                                     <span>Accounts</span>
-                                </a>
+                                </div>
+                                <!-- Bank Account is the main functional button/link with ALL functionality -->
                                 <a href="personal/Discover-NexusBank/Bank-Account/index.html" class="dropdown-link" draggable="true">
                                     <span>Bank Account</span>
                                 </a>
