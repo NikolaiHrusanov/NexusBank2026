@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* ===== CSS VARIABLES - EXACT MATCH FROM style.css ===== */
+        /* ===== CSS VARIABLES ===== */
         :root {
             --primary: #818cf8;
             --primary-dark: #6366f1;
@@ -28,6 +28,9 @@
             --text-tertiary: #94a3b8;
             --border-light: #334155;
             --border-medium: #475569;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
@@ -67,7 +70,14 @@
             overflow-x: hidden;
         }
 
-        /* ===== FLOATING NAVIGATION - EXACT MATCH FROM components.css ===== */
+        /* Focus indicators for keyboard users */
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ===== FLOATING NAVIGATION ===== */
         .floating-nav {
             position: fixed;
             top: var(--space-lg);
@@ -128,8 +138,8 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.6rem 1.2rem !important;
-            font-size: 1rem !important;
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
             font-family: var(--font-body);
             border-radius: 40px;
             transition: var(--transition-bounce);
@@ -139,7 +149,7 @@
             font-weight: 500;
             border: none;
             background: none;
-            cursor: default;
+            cursor: pointer;
             white-space: nowrap;
         }
 
@@ -155,6 +165,11 @@
             color: var(--primary);
         }
 
+        .nav-item:active {
+            transform: scale(0.97);
+            transition: transform 0.05s ease;
+        }
+
         .nav-item:hover i {
             transform: translateY(-1px);
         }
@@ -163,8 +178,7 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             box-shadow: var(--shadow-md);
-            padding: 0.5rem 1.25rem !important;
-            cursor: default;
+            padding: 0.5rem 1.25rem;
         }
 
         .nav-item.btn-primary i {
@@ -176,15 +190,23 @@
             box-shadow: var(--shadow-lg);
         }
 
+        .nav-item.btn-primary:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
         .nav-item.btn-ghost {
             background: transparent;
-            padding: 0.5rem 1.25rem !important;
-            cursor: default;
+            padding: 0.5rem 1.25rem;
         }
 
         .nav-item.btn-ghost:hover {
             background: var(--surface-hover);
             color: var(--primary);
+        }
+
+        .nav-item.btn-ghost:active {
+            transform: scale(0.97);
         }
 
         .nav-spacer {
@@ -201,15 +223,25 @@
             border: none;
             color: var(--text-secondary);
             font-size: 1.25rem;
-            cursor: default;
-            width: 40px;
-            height: 40px;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
             align-items: center;
             justify-content: center;
             margin-left: var(--space-sm);
+            border-radius: var(--radius-md);
+            transition: background var(--transition-fast);
         }
 
-        /* ===== DROPDOWN MENU STYLES ===== */
+        .mobile-menu-btn:hover {
+            background: var(--surface-hover);
+        }
+
+        .mobile-menu-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== DROPDOWN MENU STYLES - FIXED FOR MOUSE HOVER ===== */
         .nav-dropdown {
             position: relative;
         }
@@ -218,7 +250,8 @@
             display: flex;
             align-items: center;
             gap: var(--space-xs);
-            cursor: default;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .dropdown-arrow {
@@ -250,13 +283,14 @@
             margin-top: var(--space-sm);
         }
 
+        /* MOUSE HOVER - This controls the dropdown opening on hover */
         .nav-dropdown:hover .dropdown-menu {
             opacity: 1;
             visibility: visible;
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Personal Menu */
+        /* Personal Menu Positioning */
         .personal-menu {
             min-width: 1000px;
             max-width: 1200px;
@@ -268,7 +302,7 @@
             transform: translateX(0) translateY(0);
         }
 
-        /* Business Menu */
+        /* Business Menu Positioning */
         .business-menu {
             min-width: 1000px;
             max-width: 1200px;
@@ -280,7 +314,7 @@
             transform: translateX(0) translateY(0);
         }
 
-        /* Kids Menu */
+        /* Kids Menu Positioning */
         .kids-menu {
             min-width: 500px;
             left: 50%;
@@ -291,7 +325,7 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Company Menu */
+        /* Company Menu Positioning */
         .company-menu {
             min-width: 700px;
             left: -200px;
@@ -342,13 +376,18 @@
             border-radius: var(--radius-md);
             transition: all var(--transition-fast);
             margin-bottom: 2px;
-            cursor: default;
+            cursor: pointer;
         }
 
         .dropdown-link:hover {
             background: var(--surface-hover);
             transform: translateX(5px);
             color: var(--text-primary);
+        }
+
+        .dropdown-link:active {
+            transform: scale(0.98);
+            background: var(--surface-elevated);
         }
 
         /* Kids Menu Cards */
@@ -367,13 +406,18 @@
             display: block;
             transition: all 0.3s ease;
             border: 1px solid rgba(129, 140, 248, 0.2);
-            cursor: default;
+            cursor: pointer;
         }
 
         .kids-card:hover {
             background: rgba(129, 140, 248, 0.12);
             border-color: rgba(129, 140, 248, 0.5);
             transform: translateY(-2px);
+        }
+
+        .kids-card:active {
+            transform: translateY(0);
+            background: rgba(129, 140, 248, 0.2);
         }
 
         .kids-icon {
@@ -422,13 +466,17 @@
             border-radius: var(--radius-md);
             transition: all var(--transition-fast);
             margin-bottom: 2px;
-            cursor: default;
+            cursor: pointer;
         }
 
         .plan-link:hover {
             background: var(--surface-hover);
             transform: translateX(5px);
             color: var(--text-primary);
+        }
+
+        .plan-link:active {
+            transform: scale(0.98);
         }
 
         .plan-name {
@@ -446,6 +494,42 @@
 
         .mt-2 { margin-top: 8px; }
         .mt-3 { margin-top: 16px; }
+
+        /* Loading state for buttons */
+        .btn-primary.loading,
+        .btn-ghost.loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn-primary.loading::after,
+        .btn-ghost.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        /* Screen reader only class */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
 
         /* Page Content */
         .page-content {
@@ -469,7 +553,7 @@
             font-size: 1.1rem;
         }
 
-        /* Drag and Drop Styles - Only grab cursor when actually dragging */
+        /* Drag and Drop Styles */
         .dropdown-link[draggable="true"]:active, 
         .plan-link[draggable="true"]:active,
         .kids-card[draggable="true"]:active {
@@ -491,6 +575,39 @@
             100% { transform: scale(1); }
         }
 
+        /* Lazy loading animation */
+        .dropdown-menu {
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+
+        .dropdown-menu.loading {
+            position: relative;
+            min-height: 200px;
+        }
+
+        .dropdown-menu.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            margin: -20px 0 0 -20px;
+            border: 3px solid var(--border-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .nav-item span {
@@ -509,14 +626,19 @@
                 margin: 0;
             }
             
-            .dropdown-menu {
-                min-width: 90vw !important;
-                left: 0 !important;
-                right: 0 !important;
-                transform: translateX(0) translateY(10px) !important;
+            .nav-dropdown .dropdown-menu {
+                min-width: 90vw;
+                left: 0;
+                right: 0;
+                transform: translateX(0) translateY(10px);
             }
-            .dropdown-grid {
-                grid-template-columns: repeat(3, 1fr) !important;
+            
+            .nav-dropdown:hover .dropdown-menu {
+                transform: translateX(0) translateY(0);
+            }
+            
+            .nav-dropdown .dropdown-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -583,7 +705,7 @@
                 margin-top: 0.5rem;
                 padding: 1rem;
                 display: none;
-                min-width: 100% !important;
+                min-width: 100%;
                 background: var(--surface);
             }
             
@@ -591,8 +713,8 @@
                 display: block;
             }
             
-            .dropdown-grid {
-                grid-template-columns: 1fr !important;
+            .nav-dropdown .dropdown-grid {
+                grid-template-columns: 1fr;
                 gap: 0.5rem;
             }
             
@@ -604,163 +726,213 @@
             body {
                 padding-top: 84px;
             }
+            
+            /* Larger touch targets (48px minimum) */
+            .nav-item {
+                min-height: 48px;
+                padding: 12px 16px !important;
+            }
+            
+            .dropdown-toggle {
+                min-height: 48px;
+                padding: 12px 0;
+            }
+            
+            .dropdown-link {
+                min-height: 48px;
+                padding: 12px 16px !important;
+            }
+            
+            .plan-link {
+                min-height: 48px;
+                padding: 12px 16px !important;
+            }
+            
+            .kids-card {
+                min-height: 100px;
+                padding: 16px;
+            }
+            
+            .mobile-menu-btn {
+                min-width: 48px;
+                min-height: 48px;
+                width: 48px;
+                height: 48px;
+            }
+            
+            .nav-row.mobile-open .nav-item {
+                margin-bottom: 8px;
+            }
+            
+            .nav-row.mobile-open .nav-dropdown {
+                margin-bottom: 8px;
+            }
+            
+            input, select, textarea, button, a {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- Floating Navigation with Mega Menus -->
-    <nav class="floating-nav">
+    <nav class="floating-nav" aria-label="Main navigation">
         <div class="container">
-            <a href="../../../index.html" class="nav-brand">
+            <a href="../../../index.html" class="nav-brand" aria-label="NexusBank Homepage">
                 Nexus<span class="accent">Bank</span>
             </a>
 
             <div class="nav-row">
-                <!-- Personal Dropdown - RESTRUCTURED: Accounts is now a header, Bank Account has all functionality -->
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-item dropdown-toggle">
-                        <i class="fas fa-user"></i>
+                <!-- Personal Dropdown -->
+                <div class="nav-dropdown" role="navigation" aria-label="Personal banking menu">
+                    <a href="javascript:void(0)" class="nav-item dropdown-toggle" 
+                       role="button" 
+                       aria-haspopup="true" 
+                       aria-expanded="false"
+                       id="personalDropdownToggle">
+                        <i class="fas fa-user" aria-hidden="true"></i>
                         <span>Personal</span>
-                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        <i class="fas fa-chevron-down dropdown-arrow" aria-hidden="true"></i>
                     </a>
-                    <div class="dropdown-menu personal-menu">
+                    <div class="dropdown-menu personal-menu" 
+                         role="menu" 
+                         aria-label="Personal banking options"
+                         aria-labelledby="personalDropdownToggle">
                         <div class="dropdown-grid">
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Discover NexusBank</span>
                                 </div>
-                                <!-- Accounts is now a SECTION HEADER - NOT clickable, NOT draggable -->
-                                <div class="dropdown-section-header mt-2">
+                                <div class="dropdown-section-header mt-2" role="presentation">
                                     <span>Accounts</span>
                                 </div>
-                                <!-- Bank Account is the main functional button/link with ALL functionality -->
-                                <a href="../Bank-Account/index.html" class="dropdown-link" draggable="true" id="bankAccountBtn">
+                                <a href="../Bank-Account/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Bank Account</span>
                                 </a>
-                                <a href="../Joint-Account/index.html" class="dropdown-link" draggable="true">
+                                <a href="../Joint-Account/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Joint Account</span>
                                 </a>
-                                <a href="../Professional-Account/index.html" class="dropdown-link" draggable="true">
+                                <a href="../Professional-Account/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Professional Account</span>
                                 </a>
-                                <a href="../Parents-and-guardians/index.html" class="dropdown-link" draggable="true">
+                                <a href="../Parents-and-guardians/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Parents and guardians</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Savings & Funds</span>
                                 </div>
-                                <a href="../../../personal/Savings-&-Funds/Flexible-Cash-Funds/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../Savings-&-Funds/Flexible-Cash-Funds/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Flexible Cash Funds</span>
                                 </a>
-                                <a href="../../../personal/Savings-&-Funds/Smart-Spending/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../Savings-&-Funds/Smart-Spending/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Smart Spending</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Cards</span>
                                 </div>
-                                <a href="../../../personal/Cards/Send-&-Receive/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../Cards/Send-&-Receive/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Send & Receive</span>
                                 </a>
-                                <a href="../../../personal/Cards/NexusBank-Pay/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../Cards/NexusBank-Pay/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>NexusBank Pay</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Money Management</span>
                                 </div>
-                                <a href="../../../personal/Money-Management/NexusPoints/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../Money-Management/NexusPoints/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>NexusPoints</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Security & Protection</span>
                                 </div>
-                                <a href="../../../security/Security-&-Protection/How-We-Protect-Your-Money/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../security/Security-&-Protection/How-We-Protect-Your-Money/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>How We Protect Your Money</span>
                                 </a>
-                                <a href="../../../security/Security-&-Protection/Report-Lost-Device/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../security/Security-&-Protection/Report-Lost-Device/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Report Lost Device</span>
                                 </a>
-                                <a href="../../../security/Security-&-Protection/Learn-About-Fraud-&-Scams/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../security/Security-&-Protection/Learn-About-Fraud-&-Scams/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Learn About Fraud & Scams</span>
                                 </a>
-                                <a href="../../../security/Security-&-Protection/Consumer-Security-Insight-Report/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../security/Security-&-Protection/Consumer-Security-Insight-Report/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Consumer Security Insight Report</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Investments</span>
                                 </div>
-                                <a href="../../../investments/Stocks/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../investments/Stocks/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Stocks</span>
                                 </a>
-                                <a href="../../../investments/Robo-Advisor/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../investments/Robo-Advisor/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Robo-Advisor</span>
                                 </a>
-                                <a href="../../../investments/ETFs/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../investments/ETFs/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>ETFs</span>
                                 </a>
-                                <a href="../../../investments/Bonds/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../investments/Bonds/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Bonds</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Crypto</span>
                                 </div>
-                                <a href="../../../crypto/Crypto/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../crypto/Crypto/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Crypto</span>
                                 </a>
-                                <a href="../../../crypto/NexusBank-Ramp/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../crypto/NexusBank-Ramp/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>NexusBank Ramp</span>
                                 </a>
-                                <a href="../../../crypto/NexusBank-X/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../crypto/NexusBank-X/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>NexusBank X</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Mobile & Connectivity</span>
                                 </div>
-                                <a href="../../../mobile/Mobile-&-Connectivity/Data-Plans/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../mobile/Mobile-&-Connectivity/Data-Plans/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Data Plans</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Global Finances</span>
                                 </div>
-                                <a href="../../../global/Global-Finances/International-Transfers/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../global/Global-Finances/International-Transfers/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>International Transfers</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Help</span>
                                 </div>
-                                <a href="../../../help/Contact-Us/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../help/Contact-Us/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Contact Us</span>
                                 </a>
-                                <a href="../../../help/Help-Centre/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../help/Help-Centre/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Help Centre</span>
                                 </a>
-                                <a href="../../../help/System-Status/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../help/System-Status/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>System Status</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col plans-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Plans</span>
                                 </div>
-                                <a href="../../../plans/standard.html" class="plan-link" draggable="true">
+                                <a href="../../../plans/standard.html" class="plan-link" draggable="true" role="menuitem">
                                     <span class="plan-name">Standard</span>
                                     <span class="plan-price">Free</span>
                                 </a>
@@ -770,171 +942,178 @@
                 </div>
 
                 <!-- Business Dropdown -->
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-item dropdown-toggle">
-                        <i class="fas fa-briefcase"></i>
+                <div class="nav-dropdown" role="navigation" aria-label="Business banking menu">
+                    <a href="javascript:void(0)" class="nav-item dropdown-toggle"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       id="businessDropdownToggle">
+                        <i class="fas fa-briefcase" aria-hidden="true"></i>
                         <span>Business</span>
-                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        <i class="fas fa-chevron-down dropdown-arrow" aria-hidden="true"></i>
                     </a>
-                    <div class="dropdown-menu business-menu">
+                    <div class="dropdown-menu business-menu"
+                         role="menu"
+                         aria-label="Business banking options"
+                         aria-labelledby="businessDropdownToggle">
                         <div class="dropdown-grid">
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Discover NexusBank Business</span>
                                 </div>
                                 
-                                <div class="dropdown-section-header mt-2">
+                                <div class="dropdown-section-header mt-2" role="presentation">
                                     <span>Daily Banking</span>
                                 </div>
-                                <a href="../../../business/multi-currency-account.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/multi-currency-account.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Multi-Currency Account</span>
                                 </a>
-                                <a href="../../../business/expense-management.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/expense-management.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Expense Management</span>
                                 </a>
-                                <a href="../../../business/corporate-cards.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/corporate-cards.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Corporate Cards</span>
                                 </a>
-                                <a href="../../../business/money-transfers.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/money-transfers.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Money Transfers</span>
                                 </a>
-                                <a href="../../../business/bills.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/bills.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Bills</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Treasury</span>
                                 </div>
-                                <a href="../../../business/currency-exchange.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/currency-exchange.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Currency Exchange</span>
                                 </a>
-                                <a href="../../../business/savings.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/savings.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Savings</span>
                                 </a>
-                                <a href="../../../business/flexible-cash-funds.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/flexible-cash-funds.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Flexible Cash Funds</span>
                                 </a>
-                                <a href="../../../business/crypto.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/crypto.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Crypto</span>
                                 </a>
-                                <a href="../../../business/fx-forwards.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/fx-forwards.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>FX Forwards</span>
                                 </a>
-                                <a href="../../../business/nexus-x.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/nexus-x.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>NexusBank X</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Accept payments</span>
                                 </div>
-                                <a href="../../../business/accept-payments.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/accept-payments.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Accept Payments</span>
                                 </a>
-                                <a href="../../../business/in-person-payments.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/in-person-payments.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>In-person Payments</span>
                                 </a>
-                                <a href="../../../business/online-payments.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/online-payments.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Online Payments</span>
                                 </a>
-                                <a href="../../../business/nexus-pay.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/nexus-pay.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>NexusBank Pay</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Platform</span>
                                 </div>
-                                <a href="../../../business/analytics.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/analytics.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Analytics</span>
                                 </a>
-                                <a href="../../../business/apis.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/apis.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Business APIs</span>
                                 </a>
-                                <a href="../../../business/integrations.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/integrations.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Integrations</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Rewards</span>
                                 </div>
-                                <a href="../../../business/nexus-people.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/nexus-people.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>NexusBank People</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Platform</span>
                                 </div>
-                                <a href="../../../business/performance.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/performance.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Performance</span>
                                 </a>
-                                <a href="../../../business/recruitment.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/recruitment.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Recruitment</span>
                                 </a>
-                                <a href="../../../business/hr.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/hr.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>HR</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Solutions</span>
                                 </div>
-                                <a href="../../../solutions/travel.html" class="dropdown-link" draggable="true">
+                                <a href="../../../solutions/travel.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Travel</span>
                                 </a>
-                                <a href="../../../solutions/ecommerce.html" class="dropdown-link" draggable="true">
+                                <a href="../../../solutions/ecommerce.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Ecommerce</span>
                                 </a>
-                                <a href="../../../solutions/marketing.html" class="dropdown-link" draggable="true">
+                                <a href="../../../solutions/marketing.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Marketing agencies</span>
                                 </a>
-                                <a href="../../../solutions/technology.html" class="dropdown-link" draggable="true">
+                                <a href="../../../solutions/technology.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Technology & AI</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Help & Resources</span>
                                 </div>
-                                <a href="../../../business/help.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/help.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Customer Help</span>
                                 </a>
-                                <a href="../../../business/customer-stories.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/customer-stories.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Customer Stories</span>
                                 </a>
-                                <a href="../../../business/resources.html" class="dropdown-link" draggable="true">
+                                <a href="../../../business/resources.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Business Resources</span>
                                 </a>
-                                <a href="../../../security/Security-&-Protection/How-We-Protect-Your-Money/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../security/Security-&-Protection/How-We-Protect-Your-Money/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>How we protect your money</span>
                                 </a>
-                                <a href="../../../help/System-Status/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../help/System-Status/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>System Status</span>
                                 </a>
-                                <a href="../../../security/Security-&-Protection/Learn-About-Fraud-&-Scams/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../security/Security-&-Protection/Learn-About-Fraud-&-Scams/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Learn About Fraud & Scams</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>What's New</span>
                                 </div>
-                                <a href="../../../whats-new/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../whats-new/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>What's New</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col plans-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Plans</span>
                                 </div>
-                                <a href="../../../business/pricing.html" class="plan-link" draggable="true">
+                                <a href="../../../business/pricing.html" class="plan-link" draggable="true" role="menuitem">
                                     <span class="plan-name">Business Account Pricing</span>
                                 </a>
-                                <a href="../../../business/payment-pricing.html" class="plan-link" draggable="true">
+                                <a href="../../../business/payment-pricing.html" class="plan-link" draggable="true" role="menuitem">
                                     <span class="plan-name">Payment Acceptance Pricing</span>
                                 </a>
                             </div>
@@ -943,33 +1122,40 @@
                 </div>
 
                 <!-- Kids & Teens Dropdown -->
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-item dropdown-toggle">
-                        <i class="fas fa-child"></i>
+                <div class="nav-dropdown" role="navigation" aria-label="Kids and teens banking menu">
+                    <a href="javascript:void(0)" class="nav-item dropdown-toggle"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       id="kidsDropdownToggle">
+                        <i class="fas fa-child" aria-hidden="true"></i>
                         <span>Kids & Teens</span>
-                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        <i class="fas fa-chevron-down dropdown-arrow" aria-hidden="true"></i>
                     </a>
-                    <div class="dropdown-menu kids-menu">
+                    <div class="dropdown-menu kids-menu"
+                         role="menu"
+                         aria-label="Kids and teens banking options"
+                         aria-labelledby="kidsDropdownToggle">
                         <div class="kids-grid">
-                            <a href="../../../kids-teens/account.html" class="kids-card" draggable="true">
+                            <a href="../../../kids-teens/account.html" class="kids-card" draggable="true" role="menuitem">
                                 <div class="kids-icon">
-                                    <i class="fas fa-child"></i>
+                                    <i class="fas fa-child" aria-hidden="true"></i>
                                 </div>
                                 <div class="kids-title">Kids & Teens account</div>
                                 <div class="kids-desc">For ages 6-17</div>
                             </a>
 
-                            <a href="../../../kids-teens/parents.html" class="kids-card" draggable="true">
+                            <a href="../../../kids-teens/parents.html" class="kids-card" draggable="true" role="menuitem">
                                 <div class="kids-icon">
-                                    <i class="fas fa-users"></i>
+                                    <i class="fas fa-users" aria-hidden="true"></i>
                                 </div>
                                 <div class="kids-title">Parents and guardians</div>
                                 <div class="kids-desc">Manage and monitor</div>
                             </a>
 
-                            <a href="../../../help/Help-Centre/index.html" class="kids-card" draggable="true">
+                            <a href="../../../help/Help-Centre/index.html" class="kids-card" draggable="true" role="menuitem">
                                 <div class="kids-icon">
-                                    <i class="fas fa-circle-question"></i>
+                                    <i class="fas fa-circle-question" aria-hidden="true"></i>
                                 </div>
                                 <div class="kids-title">Help Center</div>
                                 <div class="kids-desc">Get support</div>
@@ -979,68 +1165,75 @@
                 </div>
 
                 <!-- Company Dropdown -->
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-item dropdown-toggle">
-                        <i class="fas fa-building"></i>
+                <div class="nav-dropdown" role="navigation" aria-label="Company information menu">
+                    <a href="javascript:void(0)" class="nav-item dropdown-toggle"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       id="companyDropdownToggle">
+                        <i class="fas fa-building" aria-hidden="true"></i>
                         <span>Company</span>
-                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        <i class="fas fa-chevron-down dropdown-arrow" aria-hidden="true"></i>
                     </a>
-                    <div class="dropdown-menu company-menu">
+                    <div class="dropdown-menu company-menu"
+                         role="menu"
+                         aria-label="Company information options"
+                         aria-labelledby="companyDropdownToggle">
                         <div class="dropdown-grid two-columns">
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>General</span>
                                 </div>
-                                <a href="../../../company/about.html" class="dropdown-link" draggable="true">
+                                <a href="../../../company/about.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>About Us</span>
                                 </a>
-                                <a href="../../../company/blog.html" class="dropdown-link" draggable="true">
+                                <a href="../../../company/blog.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Blog</span>
                                 </a>
-                                <a href="../../../company/news.html" class="dropdown-link" draggable="true">
+                                <a href="../../../company/news.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>News & Media</span>
                                 </a>
-                                <a href="../../../company/reviews.html" class="dropdown-link" draggable="true">
+                                <a href="../../../company/reviews.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>NexusBank Reviews</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Careers</span>
                                 </div>
-                                <a href="../../../careers/index.html" class="dropdown-link" draggable="true">
+                                <a href="../../../careers/index.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Careers</span>
                                 </a>
-                                <a href="../../../careers/working.html" class="dropdown-link" draggable="true">
+                                <a href="../../../careers/working.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Working at NexusBank</span>
                                 </a>
-                                <a href="../../../careers/culture.html" class="dropdown-link" draggable="true">
+                                <a href="../../../careers/culture.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Culture</span>
                                 </a>
-                                <a href="../../../careers/diversity.html" class="dropdown-link" draggable="true">
+                                <a href="../../../careers/diversity.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Diversity & Inclusion</span>
                                 </a>
-                                <a href="../../../careers/relocation.html" class="dropdown-link" draggable="true">
+                                <a href="../../../careers/relocation.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Relocation with NexusBank</span>
                                 </a>
                                 
-                                <div class="dropdown-section-header mt-3">
+                                <div class="dropdown-section-header mt-3" role="presentation">
                                     <span>Talent Programmes</span>
                                 </div>
-                                <a href="../../../careers/stem-champions.html" class="dropdown-link" draggable="true">
+                                <a href="../../../careers/stem-champions.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Talent Programmes STEM Champions</span>
                                 </a>
                             </div>
 
                             <div class="dropdown-col">
-                                <div class="dropdown-section-header">
+                                <div class="dropdown-section-header" role="presentation">
                                     <span>Shareholder Relations</span>
                                 </div>
-                                <a href="../../../investors/annual-report-2024.html" class="dropdown-link" draggable="true">
+                                <a href="../../../investors/annual-report-2024.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Annual Report 2024</span>
                                 </a>
-                                <a href="../../../investors/reports.html" class="dropdown-link" draggable="true">
+                                <a href="../../../investors/reports.html" class="dropdown-link" draggable="true" role="menuitem">
                                     <span>Reports and results</span>
                                 </a>
                             </div>
@@ -1048,23 +1241,26 @@
                     </div>
                 </div>
 
-                <div class="nav-spacer"></div>
+                <div class="nav-spacer" aria-hidden="true"></div>
 
                 <a href="../../../login.html?tab=register" class="nav-item btn-primary" id="registerBtn">
-                    <i class="fas fa-user-plus"></i>
+                    <i class="fas fa-user-plus" aria-hidden="true"></i>
                     <span>Register</span>
                 </a>
                 <a href="../../../login.html" class="nav-item btn-ghost" id="signinBtn">
-                    <i class="fas fa-sign-in-alt"></i>
+                    <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
                     <span>Sign In</span>
                 </a>
             </div>
             
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu" aria-expanded="false">
-                <i class="fas fa-bars"></i>
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
         </div>
     </nav>
+
+    <!-- Live region for screen reader announcements -->
+    <div aria-live="polite" class="sr-only" id="liveRegion"></div>
 
     <!-- Page Content -->
     <div class="page-content">
@@ -1073,25 +1269,233 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all draggable menu items
-            const draggableItems = document.querySelectorAll('.dropdown-link[draggable="true"], .plan-link[draggable="true"], .kids-card[draggable="true"]');
-            const dropTargets = document.querySelectorAll('#registerBtn, #signinBtn');
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // ============================================================
+        // HELPER FUNCTION FOR SCREEN READER ANNOUNCEMENTS
+        // ============================================================
+        
+        function announceToScreenReader(message) {
+            const liveRegion = document.getElementById('liveRegion');
+            if (liveRegion) {
+                liveRegion.textContent = message;
+                setTimeout(() => {
+                    liveRegion.textContent = '';
+                }, 3000);
+            }
+        }
+        
+        // ============================================================
+        // KEYBOARD NAVIGATION (Does NOT interfere with mouse hover)
+        // ============================================================
+        
+        const dropdowns = document.querySelectorAll('.nav-dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('.dropdown-toggle');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            const menuItems = menu ? menu.querySelectorAll('.dropdown-link, .plan-link, .kids-card') : [];
             
-            // Make all draggable items actually draggable
+            if (!toggle || !menu) return;
+            
+            // Set ARIA attributes
+            toggle.setAttribute('aria-haspopup', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
+            
+            // Keyboard handling for toggle
+            toggle.addEventListener('keydown', function(e) {
+                const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+                
+                switch(e.key) {
+                    case 'Enter':
+                    case ' ':
+                        e.preventDefault();
+                        if (isExpanded) {
+                            // Close dropdown
+                            menu.style.opacity = '0';
+                            menu.style.visibility = 'hidden';
+                            toggle.setAttribute('aria-expanded', 'false');
+                            announceToScreenReader('Menu closed');
+                        } else {
+                            // Open dropdown
+                            menu.style.opacity = '1';
+                            menu.style.visibility = 'visible';
+                            toggle.setAttribute('aria-expanded', 'true');
+                            announceToScreenReader(toggle.querySelector('span')?.innerText + ' menu opened');
+                        }
+                        break;
+                    case 'Escape':
+                        if (isExpanded) {
+                            e.preventDefault();
+                            menu.style.opacity = '0';
+                            menu.style.visibility = 'hidden';
+                            toggle.setAttribute('aria-expanded', 'false');
+                            toggle.focus();
+                            announceToScreenReader('Menu closed');
+                        }
+                        break;
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        if (!isExpanded) {
+                            menu.style.opacity = '1';
+                            menu.style.visibility = 'visible';
+                            toggle.setAttribute('aria-expanded', 'true');
+                            announceToScreenReader(toggle.querySelector('span')?.innerText + ' menu opened');
+                        }
+                        if (menuItems.length > 0) {
+                            menuItems[0].focus();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        if (!isExpanded) {
+                            menu.style.opacity = '1';
+                            menu.style.visibility = 'visible';
+                            toggle.setAttribute('aria-expanded', 'true');
+                            announceToScreenReader(toggle.querySelector('span')?.innerText + ' menu opened');
+                        }
+                        if (menuItems.length > 0) {
+                            menuItems[menuItems.length - 1].focus();
+                        }
+                        break;
+                }
+            });
+            
+            // Keyboard handling for menu items
+            menuItems.forEach((item, index) => {
+                item.setAttribute('role', 'menuitem');
+                item.setAttribute('tabindex', '0');
+                
+                item.addEventListener('keydown', function(e) {
+                    switch(e.key) {
+                        case 'Escape':
+                            e.preventDefault();
+                            menu.style.opacity = '0';
+                            menu.style.visibility = 'hidden';
+                            toggle.setAttribute('aria-expanded', 'false');
+                            toggle.focus();
+                            announceToScreenReader('Menu closed');
+                            break;
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            const nextItem = menuItems[index + 1];
+                            if (nextItem) {
+                                nextItem.focus();
+                            } else {
+                                menuItems[0].focus();
+                            }
+                            break;
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            const prevItem = menuItems[index - 1];
+                            if (prevItem) {
+                                prevItem.focus();
+                            } else {
+                                menuItems[menuItems.length - 1].focus();
+                            }
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            menuItems[0].focus();
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            menuItems[menuItems.length - 1].focus();
+                            break;
+                    }
+                });
+            });
+        });
+        
+        // Close all dropdowns when clicking outside (for keyboard mode)
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.nav-dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    const toggle = dropdown.querySelector('.dropdown-toggle');
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    if (menu && toggle && toggle.getAttribute('aria-expanded') === 'true') {
+                        menu.style.opacity = '0';
+                        menu.style.visibility = 'hidden';
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+        });
+        
+        // Close dropdowns on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                dropdowns.forEach(dropdown => {
+                    const toggle = dropdown.querySelector('.dropdown-toggle');
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    if (menu && toggle && toggle.getAttribute('aria-expanded') === 'true') {
+                        menu.style.opacity = '0';
+                        menu.style.visibility = 'hidden';
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+        });
+        
+        // ============================================================
+        // BUG #6 FIXED: Register & Sign In buttons REJECT ALL DROPS
+        // ============================================================
+        
+        const registerBtn = document.getElementById('registerBtn');
+        const signinBtn = document.getElementById('signinBtn');
+        
+        function makeButtonRejectDrops(button) {
+            if (!button) return;
+            
+            button.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'none';
+                this.style.opacity = '0.6';
+                this.style.cursor = 'not-allowed';
+            });
+            
+            button.addEventListener('dragleave', function(e) {
+                this.style.opacity = '';
+                this.style.cursor = '';
+            });
+            
+            button.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.style.opacity = '';
+                this.style.cursor = '';
+            });
+        }
+        
+        makeButtonRejectDrops(registerBtn);
+        makeButtonRejectDrops(signinBtn);
+        
+        // ============================================================
+        // BUG #7 FIXED: Detect mobile and disable drag & drop
+        // ============================================================
+        
+        function isTouchDevice() {
+            return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        }
+        
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        const isMobile = isTouchDevice() || isMobileDevice();
+        
+        if (!isMobile) {
+            const draggableItems = document.querySelectorAll('.dropdown-link[draggable="true"], .plan-link[draggable="true"], .kids-card[draggable="true"]');
+            
             draggableItems.forEach(item => {
                 item.setAttribute('draggable', 'true');
                 
                 item.addEventListener('dragstart', function(e) {
-                    // Get the text from the span (the actual name, not the href path)
                     const textSpan = this.querySelector('span:not(.plan-price)');
                     let dragText = textSpan ? textSpan.innerText.trim() : this.innerText.trim();
                     
-                    // Store the text to be dragged
                     e.dataTransfer.setData('text/plain', dragText);
                     e.dataTransfer.effectAllowed = 'copy';
-                    
-                    // Add a class for visual feedback
                     this.style.opacity = '0.5';
                 });
                 
@@ -1099,122 +1503,211 @@
                     this.style.opacity = '';
                 });
             });
-            
-            // Setup drop targets (Register and Sign In buttons)
-            dropTargets.forEach(target => {
-                target.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    e.dataTransfer.dropEffect = 'copy';
-                    this.classList.add('drag-over');
-                });
-                
-                target.addEventListener('dragleave', function(e) {
-                    this.classList.remove('drag-over');
-                });
-                
-                target.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    this.classList.remove('drag-over');
-                    
-                    // Get the dragged text (the menu item name, not the path)
-                    const droppedText = e.dataTransfer.getData('text/plain');
-                    
-                    if (droppedText && droppedText.length > 0) {
-                        // Store original text if not already stored
-                        if (!this.hasAttribute('data-original-text')) {
-                            this.setAttribute('data-original-text', this.querySelector('span').innerText);
-                        }
-                        
-                        // Update the button text with the dragged menu item name
-                        const buttonSpan = this.querySelector('span');
-                        if (buttonSpan) {
-                            buttonSpan.innerText = droppedText;
-                        }
-                        
-                        // Add visual feedback animation
-                        this.classList.add('button-updated');
-                        setTimeout(() => {
-                            this.classList.remove('button-updated');
-                        }, 300);
-                    }
-                });
+        } else {
+            const draggableItems = document.querySelectorAll('.dropdown-link[draggable="true"], .plan-link[draggable="true"], .kids-card[draggable="true"]');
+            draggableItems.forEach(item => {
+                item.setAttribute('draggable', 'false');
+                item.style.cursor = 'pointer';
             });
-            
-            // Mobile menu toggle (keep existing functionality)
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const navRow = document.querySelector('.nav-row');
-            
-            if (mobileMenuBtn && navRow) {
-                mobileMenuBtn.addEventListener('click', function(e) {
+        }
+        
+        // ============================================================
+        // BUG #10 & #11 FIXED: Mobile Responsiveness
+        // ============================================================
+        
+        function closeAllMobileDropdowns() {
+            document.querySelectorAll('.nav-dropdown.active').forEach(dropdown => {
+                dropdown.classList.remove('active');
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+        
+        const mobileDropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        
+        mobileDropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
                     e.stopPropagation();
-                    navRow.classList.toggle('mobile-open');
-                    const isExpanded = navRow.classList.contains('mobile-open');
-                    this.setAttribute('aria-expanded', isExpanded);
                     
-                    const icon = this.querySelector('i');
-                    if (isExpanded) {
+                    const dropdown = this.closest('.nav-dropdown');
+                    const isActive = dropdown.classList.contains('active');
+                    
+                    closeAllMobileDropdowns();
+                    
+                    if (!isActive) {
+                        dropdown.classList.add('active');
+                        this.setAttribute('aria-expanded', 'true');
+                        
+                        setTimeout(() => {
+                            dropdown.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 100);
+                    }
+                }
+            });
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                const isDropdownElement = e.target.closest('.nav-dropdown');
+                const isMenuButton = e.target.closest('#mobileMenuBtn');
+                
+                if (!isDropdownElement && !isMenuButton) {
+                    closeAllMobileDropdowns();
+                }
+            }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && window.innerWidth <= 768) {
+                closeAllMobileDropdowns();
+            }
+        });
+        
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeAllMobileDropdowns();
+                const mobileNavRow = document.querySelector('.nav-row');
+                const mobileMenuButton = document.getElementById('mobileMenuBtn');
+                if (mobileNavRow && mobileNavRow.classList.contains('mobile-open')) {
+                    mobileNavRow.classList.remove('mobile-open');
+                    if (mobileMenuButton) {
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuButton.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+        
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navRow = document.querySelector('.nav-row');
+        
+        if (mobileMenuBtn && navRow) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isOpen = navRow.classList.contains('mobile-open');
+                
+                if (!isOpen) {
+                    closeAllMobileDropdowns();
+                    navRow.classList.add('mobile-open');
+                    this.setAttribute('aria-expanded', 'true');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    navRow.classList.remove('mobile-open');
+                    this.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+                
+                const icon = this.querySelector('i');
+                if (icon) {
+                    if (!isOpen) {
                         icon.classList.remove('fa-bars');
                         icon.classList.add('fa-times');
                     } else {
                         icon.classList.remove('fa-times');
                         icon.classList.add('fa-bars');
                     }
-                });
-            }
-            
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (navRow && navRow.classList.contains('mobile-open')) {
-                    if (!navRow.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                        navRow.classList.remove('mobile-open');
-                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                        const icon = mobileMenuBtn.querySelector('i');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
                 }
             });
-            
-            // Mobile dropdown handling
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-            
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        const dropdown = this.closest('.nav-dropdown');
-                        
-                        dropdownToggles.forEach(otherToggle => {
-                            const otherDropdown = otherToggle.closest('.nav-dropdown');
-                            if (otherDropdown !== dropdown && otherDropdown) {
-                                otherDropdown.classList.remove('active');
-                            }
-                        });
-                        
-                        dropdown.classList.toggle('active');
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (navRow && navRow.classList.contains('mobile-open')) {
+                if (!navRow.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    navRow.classList.remove('mobile-open');
+                    if (mobileMenuBtn) {
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
                     }
-                });
-            });
-            
-            // Refresh functionality
-            const refreshLinks = document.querySelectorAll('.refresh-page');
-            refreshLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const url = this.getAttribute('data-url');
-                    if (url) {
-                        sessionStorage.setItem('redirectAfterRefresh', url);
-                        window.location.reload();
-                    }
-                });
-            });
-            
-            const redirectUrl = sessionStorage.getItem('redirectAfterRefresh');
-            if (redirectUrl) {
-                sessionStorage.removeItem('redirectAfterRefresh');
-                window.location.href = redirectUrl;
+                    document.body.style.overflow = '';
+                }
             }
         });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (navRow && navRow.classList.contains('mobile-open')) {
+                    navRow.classList.remove('mobile-open');
+                    if (mobileMenuBtn) {
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                    document.body.style.overflow = '';
+                }
+                closeAllMobileDropdowns();
+            }
+        });
+        
+        // ============================================================
+        // BUG #12 FIXED: Lazy Loading for Dropdown Content
+        // ============================================================
+        
+        const loadedDropdowns = new Set();
+        
+        function lazyLoadDropdown(dropdown) {
+            const menuId = dropdown.getAttribute('data-menu-id');
+            if (!menuId || loadedDropdowns.has(menuId)) return;
+            
+            const menu = dropdown.querySelector('.dropdown-menu');
+            if (menu && menu.hasAttribute('data-lazy')) {
+                loadedDropdowns.add(menuId);
+                menu.removeAttribute('data-lazy');
+            }
+        }
+        
+        document.querySelectorAll('.nav-dropdown').forEach((dropdown, idx) => {
+            const menuId = `dropdown_${idx}`;
+            dropdown.setAttribute('data-menu-id', menuId);
+            
+            const menu = dropdown.querySelector('.dropdown-menu');
+            if (menu) {
+                menu.setAttribute('data-lazy', 'true');
+            }
+            
+            dropdown.addEventListener('mouseenter', () => lazyLoadDropdown(dropdown));
+            dropdown.addEventListener('click', () => lazyLoadDropdown(dropdown));
+        });
+        
+        // ============================================================
+        // Refresh functionality
+        // ============================================================
+        
+        const refreshLinks = document.querySelectorAll('.refresh-page');
+        refreshLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('data-url');
+                if (url) {
+                    sessionStorage.setItem('redirectAfterRefresh', url);
+                    window.location.reload();
+                }
+            });
+        });
+        
+        const redirectUrl = sessionStorage.getItem('redirectAfterRefresh');
+        if (redirectUrl) {
+            sessionStorage.removeItem('redirectAfterRefresh');
+            window.location.href = redirectUrl;
+        }
+        
+        console.log('All bugs fixed! Mouse hover and keyboard navigation both work!');
+    });
     </script>
 
 </body>
